@@ -2,12 +2,9 @@ package server
 
 import (
 	"encoding/json"
-	"fmt"
 	"fx_diy/pkg/config"
 	"github.com/gofiber/fiber/v2"
 )
-
-var cnt = 0
 
 type HTTPServer struct {
 	app *fiber.App
@@ -15,9 +12,6 @@ type HTTPServer struct {
 }
 
 func NewFiber() *fiber.App {
-	cnt++
-	fmt.Println(cnt)
-
 	app := fiber.New(
 		fiber.Config{
 			JSONEncoder: json.Marshal,
