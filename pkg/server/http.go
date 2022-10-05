@@ -2,16 +2,18 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"fx_diy/pkg/config"
 	"github.com/gofiber/fiber/v2"
 )
 
 type HTTPServer struct {
-	app *fiber.App
-	cfg *config.Config
+	App *fiber.App
+	Cfg *config.Config
 }
 
 func NewFiber() *fiber.App {
+	fmt.Println("Excuting NewFiber")
 	app := fiber.New(
 		fiber.Config{
 			JSONEncoder: json.Marshal,
@@ -21,10 +23,10 @@ func NewFiber() *fiber.App {
 }
 
 func NewHTTPServer(cfg *config.Config, app *fiber.App) *HTTPServer {
-
+	fmt.Println("Excuting NewHTTPServer")
 	ret := &HTTPServer{
-		app: app,
-		cfg: cfg,
+		App: app,
+		Cfg: cfg,
 	}
 	return ret
 }
@@ -35,5 +37,5 @@ func Start(cfg *config.Config, app *fiber.App) error {
 }
 
 func (h *HTTPServer) Run() error {
-	return Start(h.cfg, h.app)
+	return Start(h.Cfg, h.App)
 }

@@ -13,6 +13,7 @@ type Config struct {
 }
 
 func NewConfig() *Config {
+	fmt.Println("Excuting NewConfig")
 	file, err := os.Open("./config.yaml")
 	defer func() {
 		_ = file.Close()

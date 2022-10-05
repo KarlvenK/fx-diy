@@ -5,9 +5,9 @@ import (
 )
 
 func AddHandler(
-	app *fiber.App,
+	srv *Server,
 ) {
-	v1 := app.Group("/v1/")
+	v1 := srv.HttpS.App.Group("/v1/")
 	v1.Get("/hello", Hello)
 }
 

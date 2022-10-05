@@ -1,12 +1,39 @@
 package server
 
-import "golang.org/x/sync/errgroup"
+import (
+	"context"
+	"fmt"
+	"go.uber.org/fx"
+	"golang.org/x/sync/errgroup"
+)
 
 type Server struct {
 	Group errgroup.Group
 	HttpS *HTTPServer
 }
 
-func NewServer() *Server {
-	return &Server{}
+func NewServer(app *HTTPServer, lc fx.Lifecycle) *Server {
+	fmt.Println("Excuting NewServer")
+	srv := &Server{
+		HttpS: app,
+		Group: errgroup.Group{},
+	}
+	lc.Append(fx.Hook{
+		OnStart: func(ctx context.Context) error {
+			go func() {
+				fmt.Println("test")
+				srv.Group.Go(srv.HttpS.Run)
+			}()
+			return nil
+		},
+		OnStop: func(ctx context.Context) error {
+			srv.HttpS.App.Shutdown()
+			err := srv.Group.Wait()
+			if err != nil {
+				return err
+			}
+			return nil
+		},
+	})
+	return srv
 }

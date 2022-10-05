@@ -13,17 +13,14 @@ func main() {
 }
 
 func start() error {
-	src := server.NewServer()
 
-	err := fx.New(
-		fx.NopLogger, // fx 依赖注入日志，与服务运行日志不同，该选项关闭以来注入日志
-		fx.Provide(config.NewConfig, server.NewHTTPServer, server.NewFiber),
-		fx.Populate(&src.HttpS),
+	app := fx.New(
+		//fx.NopLogger, // fx 依赖注入日志，与服务运行日志不同，该选项关闭以来注入日志
+		fx.Provide(config.NewConfig, server.NewHTTPServer, server.NewFiber, server.NewServer),
 		fx.Invoke(server.AddHandler),
-	).Err()
+	)
 
-	src.Group.Go(src.HttpS.Run)
-	err = src.Group.Wait()
+	app.Run()
 
-	return err
+	return nil
 }
