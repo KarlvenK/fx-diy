@@ -21,7 +21,6 @@ func NewServer(app *HTTPServer, lc fx.Lifecycle) *Server {
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
 			go func() {
-				fmt.Println("test")
 				srv.Group.Go(srv.HttpS.Run)
 			}()
 			return nil
