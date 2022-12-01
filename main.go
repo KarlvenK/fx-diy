@@ -3,6 +3,7 @@ package main
 import (
 	"fx_diy/pkg/config"
 	"fx_diy/pkg/server"
+
 	"go.uber.org/fx"
 )
 

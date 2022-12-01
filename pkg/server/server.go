@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+
 	"go.uber.org/fx"
 	"golang.org/x/sync/errgroup"
 )
